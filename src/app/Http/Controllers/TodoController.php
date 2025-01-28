@@ -14,4 +14,11 @@ class TodoController extends Controller
         return view('todo.index', ['todos' => $todos]);
     }
 
+    public function create()
+    {
+        $createtododata = 
+        return view();
+        //view('フォルダ名.ファイル名', 使いたい配列)
+    }
+
 }
