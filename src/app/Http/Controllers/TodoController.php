@@ -18,7 +18,7 @@ class TodoController extends Controller
 
     public function create()
     {
-        return view('todo.index');
+        return view('todo.create');
         //view('フォルダ名.ファイル名', 使いたい配列)
     }
 
