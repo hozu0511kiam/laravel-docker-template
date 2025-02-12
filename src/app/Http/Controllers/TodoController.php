@@ -6,30 +6,33 @@ use App\Todo;
 
 use Illuminate\Http\Request;
 
-class TodoController extends Controller
+class TodoController extends Controller //ControllerをTodoControllerにextendsで継承している
 {
-    public function index()
+    public function index()//Todo $todoでもOK
     {
-        $todo = new Todo();
-        $todos = $todo->all();
+        $todo = new Todo();//Todoインスタンス化
+        $todos = $todo->all();//SELECT（DB取得）
 
         return view('todo.index', ['todos' => $todos]);
+        //view('フォルダ名.ファイル名', 使いたい配列)
     }
 
     public function create()
     {
         return view('todo.create');
-        //view('フォルダ名.ファイル名', 使いたい配列)
     }
 
-    public function store(Request $request)
+    public function store(Request $request)//Requestインスタンス化
     {
-        $inputs = $request->all();
-
+        //dd tokenとcontent
+        $inputs = $request->all();//追加したToDoの内容
+        
         $todo = new Todo();
         $todo->fill($inputs);
+        //fillメソッドはfillable（Todo.php）とセット
+        //Todoインスタンスの各プロパティに一括で代入する
         
-        $todo->save();
+        $todo->save();//INSERT（DBの追加）
 
         return redirect()->route('todo.index');
     }
