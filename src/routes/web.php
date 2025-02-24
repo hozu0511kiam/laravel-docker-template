@@ -17,4 +17,6 @@ Route::get('/todo/create', 'TodoController@create')->name('todo.create');//ToDo�
 
 Route::post('/todo', 'TodoController@store')->name('todo.store');//ToDoを追加する処理
 
-Route::get('/todo/{id}', 'TodoController@show')->name('todo.show');
+Route::get('/todo/{id}', 'TodoController@show')->name('todo.show');//詳細
+
+Route::get('/todo/{id}/edit', 'TodoController@edit')->name('todo.edit');//編集画面

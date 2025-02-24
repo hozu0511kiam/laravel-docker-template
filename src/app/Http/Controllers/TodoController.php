@@ -8,6 +8,13 @@ use Illuminate\Http\Request;
 
 class TodoController extends Controller //ControllerをTodoControllerにextendsで継承している
 {
+    private $todo;
+
+    public function __construct(Todo $todo)//コンストラクタインジェクション
+    {
+        $this->todo = $todo;
+    }
+
     public function index()//Todo $todoでもOK
     {
         $todos = $this->todo->all();//SELECT（DB取得）
@@ -44,10 +51,9 @@ class TodoController extends Controller //ControllerをTodoControllerにextends�
         //todoフォルダのshowファイルで$todo(value)をtodo(key)とする
     }
 
-    private $todo;
-
-    public function __construct(Todo $todo)//コンストラクタインジェクション
+    public function edit($id)
     {
-        $this->todo = $todo;
+        $todo = $this->todo->find($id);
+        return view('todo.edit', ['todo' => $todo]);
     }
 }
