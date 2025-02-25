@@ -58,7 +58,7 @@ class TodoController extends Controller //ControllerをTodoControllerにextends�
         return view('todo.edit', ['todo' => $todo]);
     }
 
-    public function update(TodoRequest $request, $id) // 第1引数: リクエスト情報の取得　第2引数: ルートパラメータの取得
+    public function update(TodoRequest $request, $id) // 第1引数:リクエスト情報の取得 第2引数:ルートパラメータの取得
     {
         $inputs = $request->all();
         $todo = $this->todo->find($id);
@@ -66,5 +66,11 @@ class TodoController extends Controller //ControllerをTodoControllerにextends�
         //fillメソッドはfillable（Todo.php）とセット
         //INSERT（DBの追加）
         return redirect()->route('todo.show', $todo->id);
+    }
+    public function delete($id)
+    {
+        $todo = $this->todo->find($id);
+        $todo->delete();
+        return redirect()->route('todo.index');
     }
 }
