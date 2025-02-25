@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\TodoRequest;
 use App\Todo;
 
-use Illuminate\Http\Request;
+//use Illuminate\Http\Request;
 
 class TodoController extends Controller //ControllerをTodoControllerにextendsで継承している
 {
@@ -27,7 +28,7 @@ class TodoController extends Controller //ControllerをTodoControllerにextends�
         return view('todo.create');
     }
 
-    public function store(Request $request)//Requestインスタンス化
+    public function store(TodoRequest $request)//Requestインスタンス化
     {
         //dd tokenとcontent
         $inputs = $request->all();//追加したToDoの内容
@@ -57,7 +58,7 @@ class TodoController extends Controller //ControllerをTodoControllerにextends�
         return view('todo.edit', ['todo' => $todo]);
     }
 
-    public function update(Request $request, $id) // 第1引数: リクエスト情報の取得　第2引数: ルートパラメータの取得
+    public function update(TodoRequest $request, $id) // 第1引数: リクエスト情報の取得　第2引数: ルートパラメータの取得
     {
         $inputs = $request->all();
         $todo = $this->todo->find($id);
