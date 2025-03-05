@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\TodoRequest;
 use App\Todo;
+use Symfony\Component\Console\Input\Input;
 
 //use Illuminate\Http\Request;
 
@@ -28,19 +29,11 @@ class TodoController extends Controller //ControllerをTodoControllerにextends�
         return view('todo.create');
     }
 
-    public function store(TodoRequest $request)//Requestインスタンス化
+    public function store(TodoRequest $request)
     {
-        //dd tokenとcontent
-        $inputs = $request->all();//追加したToDoの内容
-        
-        $this->todo->fill($inputs);
-        //fillメソッドはfillable（Todo.php）とセット
-        //Todoインスタンスの各プロパティに一括で代入する
-        
-        $this->todo->save();//INSERT（DBの追加）
-
+        $inputs = $request->all();//SLECT文とは別 inputでも実装可能
+        $this->todo->fill($inputs)->save();
         return redirect()->route('todo.index');
-        //ControllerからRouting(web.php)にリダイレクトする
     }
 
     public function show($id)
@@ -60,17 +53,20 @@ class TodoController extends Controller //ControllerをTodoControllerにextends�
 
     public function update(TodoRequest $request, $id) // 第1引数:リクエスト情報の取得 第2引数:ルートパラメータの取得
     {
-        $inputs = $request->all();
+        $inputs = $request->all();//トークン・メソッド（PUT）、内容
         $todo = $this->todo->find($id);
         $todo->fill($inputs)->save();
         //fillメソッドはfillable（Todo.php）とセット
-        //INSERT（DBの追加）
+        //UPDATE（DBの変更更新）
         return redirect()->route('todo.show', $todo->id);
     }
+
     public function delete($id)
     {
-        $todo = $this->todo->find($id);
-        $todo->delete();
+        $this->todo->find($id)->delete();
         return redirect()->route('todo.index');
     }
+    //論理削除
+    //①タイムスタンプのあるなし→カラム作成
+    //②SoftDeletes 自分のクラス→トレイト→継承(Model)
 }
